@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>AI &amp; Chips</title>
+
+
+
+
+<style type="text/css">pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */</style>
+
+<link rel="stylesheet" href="poster-style.css" type="text/css" />
+
+<!--
+Font-awesome icons ie github or twitter
+-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
+
+<!--
+Google fonts api stuff
+-->
+<link href='https://fonts.googleapis.com/css?family=Special Elite' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Rasa' rel='stylesheet'>
+
+<!--
+Here are the required style attributes for css to make this poster work :)
+-->
+<style>
+@page {
+size: 46in 32in;
+margin: 0;
+padding: 0;
+background-color: #ffffff;
+}
+body {
+margin: 0px;
+padding: 0px;
+width: 46in;
+height: 32in;
+text-align: justify;
+font-size: 45px;
+background-color: #FFFFFF;
+color: #000000;
+}
+/* RMarkdown Class Styles */
+/* center align leaflet map,
+from https://stackoverflow.com/questions/52112119/center-leaflet-in-a-rmarkdown-document */
+.html-widget {
+margin: auto;
+position: sticky;
+margin-top: 2cm;
+margin-bottom: 2cm;
+}
+.leaflet.html-widget.html-widget-static-bound.leaflet-container.leaflet-touch.leaflet-fade-anim.leaflet-grab.leaflet-touch-drag.leaflet-touch-zoom {
+position: sticky;
+width: 100%;
+}
+pre.sourceCode.r {
+background-color: #dddddd40;
+border-radius: 4mm;
+padding: 4mm;
+width: 75%;
+margin: auto;
+margin-top: 1em;
+margin-bottom: 1em;
+/* align-items: center; */
+}
+code.sourceCode.r{
+background-color: transparent;
+font-size: 20pt;
+border-radius: 2mm;
+}
+code {
+font-size: 25pt;
+font-family: monospace;
+background-color: #00808024;
+color: #0b4545;
+padding: 1.2mm;
+line-height: 1;
+border-radius: 2mm;
+}
+caption {
+margin-bottom: 10px;
+font-size: 20pt;
+font-style: italic;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #0b454520;
+}
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
+  border-spacing: 0;
+  font-size: 40%;
+  border-style: none;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-right: 1em;
+  padding-left: 1em;
+  line-height: 1em;
+}
+table {
+  margin: auto;
+}
+th {
+  padding-left: 5mm;
+  padding-right: 5mm;
+}
+.caption {
+font-size: 20pt;
+font-style: italic;
+padding-top: 0;
+}
+.references {
+font-size: 20px;
+line-height: 90%;
+}
+/* Create three unequal columns that floats next to each other */
+.column {
+float: left;
+padding: 0px;
+}
+.outer {
+width: 46in;
+height: 32in;
+-webkit-column-count: 2; /* Chrome, Safari, Opera */
+-moz-column-count: 2; /* Firefox */
+column-count: 2;
+-webkit-column-fill: auto;
+-moz-column-fill: auto;
+column-fill: auto;
+-webkit-column-rule-width: 50%;
+-moz-column-rule-width: 50%;
+column-rule-width: 50%;
+-webkit-column-rule-style: solid;
+-moz-column-rule-style: solid;
+column-rule-style: solid;
+-webkit-column-rule-color: black;
+-moz-column-rule-color: black;
+column-rule-color: black;
+-webkit-column-gap: 50%;
+background-color: #ffffff;
+font-family: Rasa;
+color: #000000;
+}
+span.citation {
+  color: #008080;
+  font-weight: bold;
+}
+a {
+text-decoration: none;
+color: #008080;
+}
+#title {
+font-size: 125pt;
+text-align: left;
+margin: 0;
+line-height: 90%;
+border-bottom: 0;
+}
+#author {
+color: #0b4545;
+margin: 0;
+line-height: 90%;
+font-size: 1.17em;
+}
+#affiliation {
+padding-top: 1em;
+color: #00000060;
+font-style: italic;
+font-size: 25px;
+margin: 0;
+}
+sup {
+color: #cc0000;
+}
+.affiliation sup {
+font-size: 20px;
+}
+.author sup {
+font-size: 30px;
+}
+.author_extra {
+color: #008080;
+margin: 0;
+line-height: 85%;
+font-size: 35px;
+}
+.outer h1 {
+text-align: center;
+margin-top: 0.5in;
+margin-bottom: 0.5in;
+}
+.outer h2 {
+text-align: center;
+}
+.outer p {
+color: #000000;
+}
+.outer ol {
+text-align: left;
+}
+.main {
+width: calc(46in / 2);
+height: 32in;
+position: absolute;
+margin-left: calc(46in / 4);
+background-color: #0b4545;
+color: #FFFFFF90;
+font-family: Special Elite;
+background-image: linear-gradient(#0b4545 50%, #008080);
+}
+.main strong {
+color: #FFFFFF;
+}
+img.main-img-left {
+width: 20%;
+left: 0.5in;
+bottom: 0.2in;
+position: absolute;
+}
+img.main-img-right {
+width: 18%;
+right: 0.5in;
+bottom: 0.2in;
+position: absolute;
+}
+.main p {
+padding-top: 20%;
+font-size: 170px;
+text-align: left;
+}
+.fab {
+color: #00000060;
+font-size: 25px;
+}
+.twitter, i {
+color: #00000060;
+font-size: 35px;
+text-decoration: none;
+}
+a.email {
+text-decoration: none;
+color: #00000060;
+font-size: 35px;
+}
+.envelope {
+color: #00000060;
+font-size: 5px;
+text-decoration: none;
+}
+.poster_wrap {
+width: 46in;
+height: 32in;
+padding: 0cm;
+background-color: #ffffff;
+}
+span > #tab:mytable {
+  font-weight: bold;
+}
+.section {
+  padding-left: 10mm;
+  padding-right: 10mm;
+}
+.main p {
+  padding-left: 30mm;
+  padding-right: 30mm;
+}
+.main_pic {
+  width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.orcid img {
+  width: 3%;
+}
+</style>
+</head>
+<body>
+
+
+<div class="poster_wrap">
+<div class="column outer">
+<br>
+<div class="title section">
+<h1 id="title">AI &amp; Chips</h1>
+<br>
+<h3 id="author" class="author">
+
+Henry Sun<sup> 1</sup><br>
+
+<a class='envelope'><i class="fas fa-envelope"></i></a> <a href="mailto:x294sun@uwaterloo.ca" class="email">x294sun@uwaterloo.ca</a> <br>
+</h3>
+
+<h5 id="author_extra" class="author_extra">
+</h5>
+
+<p id="affiliation" class="affiliation">
+<sup>1</sup> Department of Mathematics, University of Waterloo
+</p>
+
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Gather the stock data</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>tickers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;NVDA&quot;</span>, <span class="st">&quot;AMD&quot;</span>, <span class="st">&quot;TSM&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>stock_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(tickers,<span class="at">from =</span> <span class="st">&quot;2018-01-01&quot;</span>,<span class="at">to =</span> <span class="fu">Sys.Date</span>(),<span class="at">get =</span> <span class="st">&quot;stock.prices&quot;</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Normalize the prices by setting all prices to 100 on the first date</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>normalized_data <span class="ot">&lt;-</span> stock_data <span class="sc">%&gt;%</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">normalized_price =</span> adjusted <span class="sc">/</span> <span class="fu">first</span>(adjusted) <span class="sc">*</span> <span class="dv">100</span>)</span></code></pre></div>
+<div id="stock-prices" class="section level3">
+<h3>Stock Prices</h3>
+<p>This plot shows all 3 companies trend upwards, while Nvidia’s rise been the most pronounced, reflecting heightened investor enthusiasm fueled by the AI era. AMD showed moderate gain while TSMC remained stable, suggesting varying levels of sensitivity to AI market catalysts.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Plot all in one plot</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">ggplot</span>(normalized_data, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> normalized_price, <span class="at">color =</span> symbol)) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>, <span class="at">name =</span> <span class="st">&quot;Company&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Normalized Stock Prices of Major AI Chip Companies (2018–2025)&quot;</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Prices normalized to 100 at start date (2018-01-01)&quot;</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Date&quot;</span>,<span class="at">y =</span> <span class="st">&quot;Normalized Adjusted Price&quot;</span>,<span class="at">caption =</span> <span class="st">&quot;Data source: tidyquant&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">16</span>) <span class="sc">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>)</span></code></pre></div>
+<p><img src="AI-and-Chips_files/figure-html/unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="quarterly-gains-vs-losses" class="section level3">
+<h3>Quarterly Gains vs Losses</h3>
+<p>Violin and boxplots illustrate greater variance in Nvidia’s returns during the AI era, including higher upside potential.AMD shows tighter but improved return distribution; while TSMC remains unchanged pre vs post ChatGPT era.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Quarterly return calculation</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>quarterly_data <span class="ot">&lt;-</span> stock_data <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">tq_transmute</span>(<span class="at">select =</span> adjusted, <span class="at">mutate_fun =</span> periodReturn, <span class="at">period =</span> <span class="st">&quot;quarterly&quot;</span>, <span class="at">col_rename =</span> <span class="st">&quot;quarterly_return&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gpt_era =</span> <span class="fu">ifelse</span>(date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">&quot;2022-11-30&quot;</span>), <span class="st">&quot;Post-ChatGPT&quot;</span>, <span class="st">&quot;Pre-ChatGPT&quot;</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># Determine where to place vertical lines between company groups (1.5, 2.5, ...)</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>vline_positions <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">1.5</span>, <span class="fu">length</span>(<span class="fu">unique</span>(quarterly_data<span class="sc">$</span>symbol)) <span class="sc">-</span> <span class="fl">0.5</span>, <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co"># Violin and  boxplot</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="fu">ggplot</span>(quarterly_data, <span class="fu">aes</span>(<span class="at">x =</span> symbol, <span class="at">y =</span> quarterly_return, <span class="at">fill =</span> gpt_era)) <span class="sc">+</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">color =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> vline_positions, <span class="at">color =</span> <span class="st">&quot;grey50&quot;</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set2&quot;</span>, <span class="at">name =</span> <span class="st">&quot;AI Era&quot;</span>) <span class="sc">+</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of Quarterly Returns by Company and AI Era&quot;</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Pre-ChatGPT vs Post-ChatGPT (after Nov 2022)&quot;</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Company&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Quarterly Return (%)&quot;</span>, <span class="at">caption =</span> <span class="st">&quot;Data source: tidyquant&quot;</span>) <span class="sc">+</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">16</span>)</span></code></pre></div>
+<p><img src="AI-and-Chips_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>The Mosaic plot shows that after Chat-GPT, Nvidia experienced a clear shift toward more quarters of positive returns. TSMC also shows a significant shift towards it. While AMD remains the same pre vs post ChatGPT era.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Categorize each quarterly return as Gain or Loss</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>mosaic_data <span class="ot">&lt;-</span> quarterly_data <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">return_type =</span> <span class="fu">ifelse</span>(quarterly_return <span class="sc">&gt;=</span> <span class="dv">0</span>, <span class="st">&quot;Gain&quot;</span>, <span class="st">&quot;Loss&quot;</span>), </span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>         <span class="at">gpt_era =</span> <span class="fu">factor</span>(gpt_era, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Pre-ChatGPT&quot;</span>, <span class="st">&quot;Post-ChatGPT&quot;</span>)),</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>         <span class="at">return_type =</span> <span class="fu">factor</span>(return_type, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Gain&quot;</span>, <span class="st">&quot;Loss&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">count</span>(symbol, gpt_era, return_type) <span class="sc">%&gt;%</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol, gpt_era) <span class="sc">%&gt;%</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co"># Add unique company-era label</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>mosaic_plot_data <span class="ot">&lt;-</span> mosaic_data <span class="sc">%&gt;%</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">company_era =</span> <span class="fu">paste</span>(symbol, gpt_era, <span class="at">sep =</span> <span class="st">&quot; - &quot;</span>),</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>         <span class="at">company_era =</span> <span class="fu">factor</span>(company_era, <span class="at">levels =</span> <span class="fu">unique</span>(<span class="fu">paste</span>(symbol, gpt_era, <span class="at">sep =</span> <span class="st">&quot; - &quot;</span>)))) <span class="sc">%&gt;%</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>  <span class="fu">group_by</span>(company_era) <span class="sc">%&gt;%</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y_start =</span> <span class="fu">cumsum</span>(<span class="fu">lag</span>(freq, <span class="at">default =</span> <span class="dv">0</span>)),<span class="at">y_end =</span> y_start <span class="sc">+</span> freq) <span class="sc">%&gt;%</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x_num =</span> <span class="fu">as.numeric</span>(company_era),<span class="at">xmin =</span> x_num <span class="sc">-</span> <span class="fl">0.4</span>,<span class="at">xmax =</span> x_num <span class="sc">+</span> <span class="fl">0.4</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="fu">ggplot</span>(mosaic_plot_data) <span class="sc">+</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> xmin,<span class="at">xmax =</span> xmax,<span class="at">ymin =</span> y_start,<span class="at">ymax =</span> y_end,<span class="at">fill =</span> return_type)) <span class="sc">+</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> mosaic_plot_data<span class="sc">$</span>x_num,<span class="at">labels =</span> mosaic_plot_data<span class="sc">$</span>company_era,<span class="at">name =</span> <span class="st">&quot;Company and Era&quot;</span>) <span class="sc">+</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">&quot;Proportion of Quarters&quot;</span>,<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>(<span class="at">accuracy =</span> <span class="dv">1</span>),<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Gain&quot;</span> <span class="ot">=</span> <span class="st">&quot;#4CAF50&quot;</span>, <span class="st">&quot;Loss&quot;</span> <span class="ot">=</span> <span class="st">&quot;#E53935&quot;</span>), <span class="at">name =</span> <span class="st">&quot;Quarter Type&quot;</span>) <span class="sc">+</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Quarterly Gains vs Losses Before and After the AI Boom&quot;</span>,</span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Proportion of positive and negative quarters across companies in Pre- and Post-ChatGPT periods&quot;</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Data Source: tidyquant &quot;</span>) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>,<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div>
+<p><img src="AI-and-Chips_files/figure-html/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="performance-summary" class="section level3">
+<h3>Performance Summary</h3>
+<p>Nvidia leads with the highest average return and increase in gain frequency post-ChatGPT. TSMC improved aross most metrics, while AMD exhibited a slight decline in performance consistency. It is clear that Nvidia’s post-AI boom momentum far exceeded its peers in both volatility and reward.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Summarize performance by stock and era</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> quarterly_data <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">return_type =</span> <span class="fu">ifelse</span>(quarterly_return <span class="sc">&gt;=</span> <span class="dv">0</span>, <span class="st">&quot;Gain&quot;</span>, <span class="st">&quot;Loss&quot;</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>         <span class="at">gpt_era =</span> <span class="fu">factor</span>(gpt_era, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Pre-ChatGPT&quot;</span>, <span class="st">&quot;Post-ChatGPT&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol, gpt_era) <span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_return =</span> <span class="fu">mean</span>(quarterly_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>            <span class="at">pct_gain =</span> <span class="fu">mean</span>(return_type <span class="sc">==</span> <span class="st">&quot;Gain&quot;</span>),</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>            <span class="at">max_drawdown =</span> <span class="fu">min</span>(quarterly_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>            <span class="at">volatility =</span> <span class="fu">sd</span>(quarterly_return, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>            <span class="at">total_quarters =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">max_pre =</span> pct_gain[gpt_era <span class="sc">==</span> <span class="st">&quot;Pre-ChatGPT&quot;</span>],</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>         <span class="at">pct_gain_color =</span> <span class="fu">if_else</span>(gpt_era <span class="sc">==</span> <span class="st">&quot;Pre-ChatGPT&quot;</span>, <span class="st">&quot;#90A4AE&quot;</span>, <span class="fu">if_else</span>(pct_gain <span class="sc">&gt;</span> max_pre, <span class="st">&quot;#4CAF50&quot;</span>, <span class="st">&quot;#E53935&quot;</span>)),</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>         <span class="at">pre_avg =</span> avg_return[gpt_era <span class="sc">==</span> <span class="st">&quot;Pre-ChatGPT&quot;</span>],</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>         <span class="at">avg_return_arrow =</span> </span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>           <span class="fu">if_else</span>(gpt_era <span class="sc">==</span> <span class="st">&quot;Pre-ChatGPT&quot;</span>, <span class="st">&quot;&quot;</span>, </span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>                   <span class="fu">if_else</span>(avg_return <span class="sc">&gt;</span> pre_avg, <span class="st">&quot;&lt;span style=&#39;color:#4CAF50;&#39;&gt;▲&lt;/span&gt;&quot;</span>, <span class="st">&quot;&lt;span style=&#39;color:#E53935;&#39;&gt;▼&lt;/span&gt;&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co"># Generate gt table</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>summary_table <span class="sc">%&gt;%</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">md</span>(<span class="st">&quot;Performance Summary Before and After the AI Boom&quot;</span>),</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="fu">md</span>(<span class="st">&quot;Pre and Post-ChatGPT Comparison&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">symbol =</span> <span class="st">&quot;Company&quot;</span>, <span class="at">gpt_era =</span> <span class="st">&quot;Era&quot;</span>, <span class="at">avg_return =</span> <span class="st">&quot;Avg Return&quot;</span>,</span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>             <span class="at">pct_gain =</span> <span class="st">&quot;% Gain Quarters&quot;</span>, <span class="at">max_drawdown =</span> <span class="st">&quot;Max Drawdown&quot;</span>,</span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>             <span class="at">volatility =</span> <span class="st">&quot;Volatility&quot;</span>, <span class="at">total_quarters =</span> <span class="st">&quot;Quarters&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>  <span class="fu">data_color</span>(<span class="at">columns =</span> <span class="fu">c</span>(pct_gain), <span class="at">fn =</span> <span class="cf">function</span>(x) { summary_table<span class="sc">$</span>pct_gain_color }) <span class="sc">%&gt;%</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="at">columns =</span> <span class="fu">c</span>(avg_return, pct_gain, max_drawdown, volatility), <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>  <span class="fu">text_transform</span>(<span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> avg_return),</span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a>                 <span class="at">fn =</span> <span class="cf">function</span>(x) { <span class="fu">paste0</span>(x, <span class="st">&quot; &quot;</span>, summary_table<span class="sc">$</span>avg_return_arrow) }) <span class="sc">%&gt;%</span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a>  <span class="fu">cols_hide</span>(<span class="fu">c</span>(max_pre, pct_gain_color, pre_avg, avg_return_arrow)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="st">&quot;center&quot;</span>, <span class="at">columns =</span> <span class="fu">c</span>(symbol, gpt_era, pct_gain, max_drawdown, volatility, total_quarters)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(<span class="fu">md</span>(<span class="st">&quot;Data Source: tidyquant&quot;</span>))</span></code></pre></div>
+<div id="npjgdavffu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#npjgdavffu table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#npjgdavffu thead, #npjgdavffu tbody, #npjgdavffu tfoot, #npjgdavffu tr, #npjgdavffu td, #npjgdavffu th {
+  border-style: none;
+}
+
+#npjgdavffu p {
+  margin: 0;
+  padding: 0;
+}
+
+#npjgdavffu .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#npjgdavffu .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#npjgdavffu .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#npjgdavffu .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#npjgdavffu .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#npjgdavffu .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#npjgdavffu .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#npjgdavffu .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#npjgdavffu .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#npjgdavffu .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#npjgdavffu .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#npjgdavffu .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#npjgdavffu .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#npjgdavffu .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#npjgdavffu .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#npjgdavffu .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#npjgdavffu .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#npjgdavffu .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#npjgdavffu .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#npjgdavffu .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#npjgdavffu .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#npjgdavffu .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#npjgdavffu .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#npjgdavffu .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#npjgdavffu .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#npjgdavffu .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#npjgdavffu .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#npjgdavffu .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#npjgdavffu .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#npjgdavffu .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#npjgdavffu .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#npjgdavffu .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#npjgdavffu .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#npjgdavffu .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#npjgdavffu .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#npjgdavffu .gt_left {
+  text-align: left;
+}
+
+#npjgdavffu .gt_center {
+  text-align: center;
+}
+
+#npjgdavffu .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#npjgdavffu .gt_font_normal {
+  font-weight: normal;
+}
+
+#npjgdavffu .gt_font_bold {
+  font-weight: bold;
+}
+
+#npjgdavffu .gt_font_italic {
+  font-style: italic;
+}
+
+#npjgdavffu .gt_super {
+  font-size: 65%;
+}
+
+#npjgdavffu .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#npjgdavffu .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#npjgdavffu .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#npjgdavffu .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#npjgdavffu .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#npjgdavffu .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#npjgdavffu .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#npjgdavffu .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#npjgdavffu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="7" class="gt_heading gt_title gt_font_normal" style><span class='gt_from_md'>Performance Summary Before and After the AI Boom</span></td>
+    </tr>
+    <tr class="gt_heading">
+      <td colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style><span class='gt_from_md'>Pre and Post-ChatGPT Comparison</span></td>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="symbol">Company</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="gpt_era">Era</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="avg_return">Avg Return</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="pct_gain">% Gain Quarters</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="max_drawdown">Max Drawdown</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="volatility">Volatility</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="total_quarters">Quarters</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="symbol" class="gt_row gt_center">AMD</td>
+<td headers="gpt_era" class="gt_row gt_center">Pre-ChatGPT</td>
+<td headers="avg_return" class="gt_row gt_right">14.9% </td>
+<td headers="pct_gain" class="gt_row gt_center" style="background-color: #90A4AE; color: #FFFFFF;">57.9%</td>
+<td headers="max_drawdown" class="gt_row gt_center">−40.2%</td>
+<td headers="volatility" class="gt_row gt_center">36.5%</td>
+<td headers="total_quarters" class="gt_row gt_center">19</td></tr>
+    <tr><td headers="symbol" class="gt_row gt_center">AMD</td>
+<td headers="gpt_era" class="gt_row gt_center">Post-ChatGPT</td>
+<td headers="avg_return" class="gt_row gt_right">5.5% <span style='color:#E53935;'>▼</span></td>
+<td headers="pct_gain" class="gt_row gt_center" style="background-color: #E53935; color: #FFFFFF;">54.5%</td>
+<td headers="max_drawdown" class="gt_row gt_center">−26.4%</td>
+<td headers="volatility" class="gt_row gt_center">25.1%</td>
+<td headers="total_quarters" class="gt_row gt_center">11</td></tr>
+    <tr><td headers="symbol" class="gt_row gt_center">NVDA</td>
+<td headers="gpt_era" class="gt_row gt_center">Pre-ChatGPT</td>
+<td headers="avg_return" class="gt_row gt_right">9.2% </td>
+<td headers="pct_gain" class="gt_row gt_center" style="background-color: #90A4AE; color: #FFFFFF;">68.4%</td>
+<td headers="max_drawdown" class="gt_row gt_center">−52.4%</td>
+<td headers="volatility" class="gt_row gt_center">28.8%</td>
+<td headers="total_quarters" class="gt_row gt_center">19</td></tr>
+    <tr><td headers="symbol" class="gt_row gt_center">NVDA</td>
+<td headers="gpt_era" class="gt_row gt_center">Post-ChatGPT</td>
+<td headers="avg_return" class="gt_row gt_right">25.6% <span style='color:#4CAF50;'>▲</span></td>
+<td headers="pct_gain" class="gt_row gt_center" style="background-color: #4CAF50; color: #FFFFFF;">72.7%</td>
+<td headers="max_drawdown" class="gt_row gt_center">−19.3%</td>
+<td headers="volatility" class="gt_row gt_center">35.9%</td>
+<td headers="total_quarters" class="gt_row gt_center">11</td></tr>
+    <tr><td headers="symbol" class="gt_row gt_center">TSM</td>
+<td headers="gpt_era" class="gt_row gt_center">Pre-ChatGPT</td>
+<td headers="avg_return" class="gt_row gt_right">5.1% </td>
+<td headers="pct_gain" class="gt_row gt_center" style="background-color: #90A4AE; color: #FFFFFF;">57.9%</td>
+<td headers="max_drawdown" class="gt_row gt_center">−21.2%</td>
+<td headers="volatility" class="gt_row gt_center">18.9%</td>
+<td headers="total_quarters" class="gt_row gt_center">19</td></tr>
+    <tr><td headers="symbol" class="gt_row gt_center">TSM</td>
+<td headers="gpt_era" class="gt_row gt_center">Post-ChatGPT</td>
+<td headers="avg_return" class="gt_row gt_right">9.1% <span style='color:#4CAF50;'>▲</span></td>
+<td headers="pct_gain" class="gt_row gt_center" style="background-color: #4CAF50; color: #FFFFFF;">72.7%</td>
+<td headers="max_drawdown" class="gt_row gt_center">−15.6%</td>
+<td headers="volatility" class="gt_row gt_center">16.7%</td>
+<td headers="total_quarters" class="gt_row gt_center">11</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="7"><span class='gt_from_md'>Data Source: tidyquant</span></td>
+    </tr>
+  </tfoot>
+  
+</table>
+</div>
+</div>
+<div id="references" class="section level3">
+<h3>References</h3>
+<p>This analysis was conducted using several R packages. Data acquisition and transformation were performed with <strong>tidyquant</strong>, <strong>dplyr</strong>, and <strong>tidyverse</strong>. Visualizations were created using <strong>ggplot2</strong>, <strong>viridis</strong>, and <strong>ggforce</strong>. Summary tables were built with <strong>gt</strong>. The poster itself was developed using <strong>posterdown</strong>, <strong>rmarkdown</strong>, and <strong>pagedown</strong>.</p>
+</div>
+
+</div>
+<div class="main">
+<p>The <strong>AI Boom</strong> significantly boosted the <strong>performance of major AI chip companies</strong>, with <strong>Nvidia</strong> experiencing the <strong>most dramatic surge in returns and consistency</strong></p>
+
+
+</div>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,3 @@
+install.packages("pagedown")
+
+pagedown::chrome_print("AI-and-Chips.html")

@@ -1,0 +1,192 @@
+---
+title: "AI & Chips"
+author:
+  - name: Henry Sun
+    affil: 1
+    email: x294sun@uwaterloo.ca
+    main: true
+affiliation:
+  - num: 1
+    address: Department of Mathematics, University of Waterloo
+main_findings:
+  - "The **AI Boom** significantly boosted the **performance of major AI chip companies**, with **Nvidia** experiencing the **most dramatic surge in returns and consistency**"
+output: 
+  posterdown::posterdown_betterland:
+    self_contained: false
+    css: "poster-style.css"
+    pandoc_args: --mathjax
+    highlight: haddock
+    number_sections: false
+link-citations: true
+bibliography: packages.bib
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(results = 'asis',
+                      echo = TRUE,
+                      warning = FALSE,
+                      tidy = FALSE,
+                      message = FALSE,
+                      fig.align = 'center',
+                      out.width = "100%")
+options(knitr.table.format = "html")
+library(tidyquant)
+library(ggplot2)
+library(viridis)
+library(tidyverse)
+library(ggforce)
+library(dplyr)
+library(gt)
+```
+
+```{r myplot, include=FALSE}
+svg('myplot.svg')
+plot(iris$Sepal.Length, iris$Sepal.Width)
+dev.off()
+```
+
+
+```{r, include=FALSE}
+knitr::write_bib(c('posterdown', 'rmarkdown', 'pagedown', 'tidyquant', 'ggplot2', 'viridis', 'tidyverse', 'ggforce', 'dplyr', 'gt'), 'packages.bib')
+```
+
+```{r}
+# Gather the stock data
+tickers <- c("NVDA", "AMD", "TSM")
+stock_data <- tq_get(tickers,from = "2018-01-01",to = Sys.Date(),get = "stock.prices")
+# Normalize the prices by setting all prices to 100 on the first date
+normalized_data <- stock_data %>%
+  group_by(symbol) %>%
+  arrange(date) %>%
+  mutate(normalized_price = adjusted / first(adjusted) * 100)
+```
+
+
+### Stock Prices
+
+This plot shows all 3 companies trend upwards, while Nvidia's rise been the most pronounced, reflecting heightened investor enthusiasm fueled by the AI era. AMD showed moderate gain while TSMC remained stable, suggesting varying levels of sensitivity to AI market catalysts. 
+
+```{r, fig.width=10, fig.height=5}
+
+# Plot all in one plot
+ggplot(normalized_data, aes(x = date, y = normalized_price, color = symbol)) +
+  geom_line(linewidth = 1.2) +
+  scale_color_brewer(palette = "Dark2", name = "Company") +
+  labs(title = "Normalized Stock Prices of Major AI Chip Companies (2018–2025)",
+       subtitle = "Prices normalized to 100 at start date (2018-01-01)",
+       x = "Date",y = "Normalized Adjusted Price",caption = "Data source: tidyquant") +
+  theme_minimal(base_size = 16) +
+  theme(legend.position = "right")
+```
+
+
+
+
+### Quarterly Gains vs Losses
+
+Violin and boxplots illustrate greater variance in Nvidia’s returns during the AI era, including higher upside potential.AMD shows tighter but improved return distribution; while TSMC remains unchanged pre vs post ChatGPT era.
+
+```{r, fig.width=10, fig.height=4}
+# Quarterly return calculation
+quarterly_data <- stock_data %>%
+  group_by(symbol) %>%
+  tq_transmute(select = adjusted, mutate_fun = periodReturn, period = "quarterly", col_rename = "quarterly_return") %>%
+  mutate(gpt_era = ifelse(date >= as.Date("2022-11-30"), "Post-ChatGPT", "Pre-ChatGPT"))
+
+# Determine where to place vertical lines between company groups (1.5, 2.5, ...)
+vline_positions <- seq(1.5, length(unique(quarterly_data$symbol)) - 0.5, by = 1)
+
+# Violin and  boxplot
+ggplot(quarterly_data, aes(x = symbol, y = quarterly_return, fill = gpt_era)) +
+  geom_violin(alpha = 0.7, position = position_dodge(width = 0.8), color = NA) +
+  geom_boxplot(width = 0.1, position = position_dodge(width = 0.8), outlier.shape = NA) +
+  geom_vline(xintercept = vline_positions, color = "grey50", linetype = "dashed", linewidth = 0.3) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  scale_fill_brewer(palette = "Set2", name = "AI Era") +
+  labs(title = "Distribution of Quarterly Returns by Company and AI Era",
+       subtitle = "Pre-ChatGPT vs Post-ChatGPT (after Nov 2022)",
+       x = "Company", y = "Quarterly Return (%)", caption = "Data source: tidyquant") +
+  theme_minimal(base_size = 16)
+
+```
+
+The Mosaic plot shows that after Chat-GPT, Nvidia experienced a clear shift toward more quarters of positive returns. TSMC also shows a significant shift towards it. While AMD remains the same pre vs post ChatGPT era. 
+
+```{r, fig.width=12, fig.height=5}
+# Categorize each quarterly return as Gain or Loss
+mosaic_data <- quarterly_data %>%
+  mutate(return_type = ifelse(quarterly_return >= 0, "Gain", "Loss"), 
+         gpt_era = factor(gpt_era, levels = c("Pre-ChatGPT", "Post-ChatGPT")),
+         return_type = factor(return_type, levels = c("Gain", "Loss"))) %>%
+  count(symbol, gpt_era, return_type) %>%
+  group_by(symbol, gpt_era) %>%
+  mutate(freq = n / sum(n)) %>%
+  ungroup()
+# Add unique company-era label
+mosaic_plot_data <- mosaic_data %>%
+  mutate(company_era = paste(symbol, gpt_era, sep = " - "),
+         company_era = factor(company_era, levels = unique(paste(symbol, gpt_era, sep = " - ")))) %>%
+  group_by(company_era) %>%
+  mutate(y_start = cumsum(lag(freq, default = 0)),y_end = y_start + freq) %>%
+  ungroup() %>%
+  mutate(x_num = as.numeric(company_era),xmin = x_num - 0.4,xmax = x_num + 0.4)
+
+# Plot
+ggplot(mosaic_plot_data) +
+  geom_rect(aes(xmin = xmin,xmax = xmax,ymin = y_start,ymax = y_end,fill = return_type)) +
+  scale_x_continuous(breaks = mosaic_plot_data$x_num,labels = mosaic_plot_data$company_era,name = "Company and Era") +
+  scale_y_continuous(name = "Proportion of Quarters",labels = scales::percent_format(accuracy = 1),limits = c(0, 1)) +
+  scale_fill_manual(values = c("Gain" = "#4CAF50", "Loss" = "#E53935"), name = "Quarter Type") +
+  labs(title = "Quarterly Gains vs Losses Before and After the AI Boom",
+       subtitle = "Proportion of positive and negative quarters across companies in Pre- and Post-ChatGPT periods",
+       caption = "Data Source: tidyquant ") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top",axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+
+### Performance Summary
+
+Nvidia leads with the highest average return and increase in gain frequency post-ChatGPT. TSMC improved aross most metrics, while AMD exhibited a slight decline in performance consistency. It is clear that Nvidia's post-AI boom momentum far exceeded its peers in both volatility and reward. 
+
+```{r, fig.width=12, fig.height=7}
+# Summarize performance by stock and era
+summary_table <- quarterly_data %>%
+  mutate(return_type = ifelse(quarterly_return >= 0, "Gain", "Loss"),
+         gpt_era = factor(gpt_era, levels = c("Pre-ChatGPT", "Post-ChatGPT"))) %>%
+  group_by(symbol, gpt_era) %>%
+  summarise(avg_return = mean(quarterly_return, na.rm = TRUE),
+            pct_gain = mean(return_type == "Gain"),
+            max_drawdown = min(quarterly_return, na.rm = TRUE),
+            volatility = sd(quarterly_return, na.rm = TRUE),
+            total_quarters = n(), .groups = "drop") %>%
+  group_by(symbol) %>%
+  mutate(max_pre = pct_gain[gpt_era == "Pre-ChatGPT"],
+         pct_gain_color = if_else(gpt_era == "Pre-ChatGPT", "#90A4AE", if_else(pct_gain > max_pre, "#4CAF50", "#E53935")),
+         pre_avg = avg_return[gpt_era == "Pre-ChatGPT"],
+         avg_return_arrow = 
+           if_else(gpt_era == "Pre-ChatGPT", "", 
+                   if_else(avg_return > pre_avg, "<span style='color:#4CAF50;'>▲</span>", "<span style='color:#E53935;'>▼</span>"))) %>%
+  ungroup()
+
+# Generate gt table
+summary_table %>%
+  gt() %>%
+  tab_header(title = md("Performance Summary Before and After the AI Boom"),
+             subtitle = md("Pre and Post-ChatGPT Comparison")) %>%
+  cols_label(symbol = "Company", gpt_era = "Era", avg_return = "Avg Return",
+             pct_gain = "% Gain Quarters", max_drawdown = "Max Drawdown",
+             volatility = "Volatility", total_quarters = "Quarters") %>%
+  data_color(columns = c(pct_gain), fn = function(x) { summary_table$pct_gain_color }) %>%
+  fmt_percent(columns = c(avg_return, pct_gain, max_drawdown, volatility), decimals = 1) %>%
+  text_transform(locations = cells_body(columns = avg_return),
+                 fn = function(x) { paste0(x, " ", summary_table$avg_return_arrow) }) %>%
+  cols_hide(c(max_pre, pct_gain_color, pre_avg, avg_return_arrow)) %>%
+  cols_align("center", columns = c(symbol, gpt_era, pct_gain, max_drawdown, volatility, total_quarters)) %>%
+  tab_source_note(md("Data Source: tidyquant"))
+```
+
+
+### References
+This analysis was conducted using several R packages. Data acquisition and transformation were performed with **tidyquant**, **dplyr**, and **tidyverse**. Visualizations were created using **ggplot2**, **viridis**, and **ggforce**. Summary tables were built with **gt**. The poster itself was developed using **posterdown**, **rmarkdown**, and **pagedown**. 
